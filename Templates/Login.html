@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login de Plataforma RECURSOS DE APRENDIZAJE</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='Login.css') }}">
+ 
+  
+  <!-- Íconos -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <!-- Script de inactividad -->
+  <script>
+    const INACTIVIDAD_TIEMPO = 5 * 60 * 1000; // 5 minutos
+    let temporizadorInactividad;
+
+    function cerrarSesion() {
+      alert("Se ha cerrado la sesión por inactividad.");
+      window.location.href = "/logout";
+    }
+
+    function reiniciarTemporizador() {
+      clearTimeout(temporizadorInactividad);
+      temporizadorInactividad = setTimeout(cerrarSesion, INACTIVIDAD_TIEMPO);
+    }
+
+    function iniciarDeteccionInactividad() {
+      ["mousemove", "keypress", "click", "scroll"].forEach(evento => {
+        document.addEventListener(evento, reiniciarTemporizador);
+      });
+      reiniciarTemporizador();
+    }
+
+    window.onload = iniciarDeteccionInactividad;
+  </script>
+</head>
+<body>
+
+  <!-- Overlay de Bloqueo -->
+  <div class="bloqueo-overlay" id="bloqueoOverlay">
+    <div class="bloqueo-contenido">
+      <ion-icon name="lock-closed" style="font-size: 72px; color: #ff4757;"></ion-icon>
+      <h2>Cuenta Bloqueada</h2>
+      <p>Has excedido el número de intentos permitidos.</p>
+      <div class="cronometro" id="cronometro">05:00</div>
+      <p style="color: #666;">Podrás intentar nuevamente cuando termine el tiempo.</p>
+    </div>
+  </div>
+
+  <!-- Mensajes Flash -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for category, message in messages %}
+          <div class="flash-message flash-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="container" id="container">
+
+    <!-- Formulario de Iniciar Sesión - ALUMNO -->
+    <div class="form-container sign-in-container">
+      <form method="POST" action="/login/alumno" id="formAlumno">
+        <h1>Iniciar Sesión como Estudiante del Plantel</h1>
+        <div class="social-container">
+          <a href="#"><ion-icon name="logo-twitter"></ion-icon></a>
+          <a href="#"><ion-icon name="logo-instagram"></ion-icon></a>
+          <a href="#"><ion-icon name="logo-tiktok"></ion-icon></a>
+        </div>
+        <span>o usa tu cuenta de:</span>
+        
+        <div id="alertaIntentosAlumno" class="alerta-intentos"></div>
+        
+        <input type="email" name="email" id="emailAlumno" placeholder="Correo electrónico" required />
+        <input type="text" name="numerocontrol" id="numeroControlAlumno" placeholder="Numero de Control" required />
+        <button type="submit" id="btnLoginAlumno">Entrar</button>
+
+        <p class="link-crear-cuenta">
+          ¿No tienes cuenta? <a class="boton" href="/registro/alumno">Registro de Alumnos</a>
+        </p>
+      </form>
+    </div>
+
+    <!-- Formulario de Iniciar Sesión - EMPLEADO -->
+    <div class="form-container sign-up-container">
+      <form method="POST" action="/login/empleado" id="formEmpleado">
+        <h1>Iniciar Sesión como Empleado</h1>
+        <div class="social-container">
+          <a href="#"><ion-icon name="logo-twitter"></ion-icon></a>
+          <a href="#"><ion-icon name="logo-instagram"></ion-icon></a>
+          <a href="#"><ion-icon name="logo-tiktok"></ion-icon></a>
+        </div>
+        <span>o usa tu cuenta de:</span>
+        
+        <div id="alertaIntentosEmpleado" class="alerta-intentos"></div>
+        
+        <input type="text" name="usuario" id="usuarioEmpleado" placeholder="Usuario" required />
+        <input type="text" name="numeroempleado" id="numeroEmpleado" placeholder="Numero de Empleado" required />
+        <button type="submit" id="btnLoginEmpleado">Entrar</button>
+
+        <p class="link-crear-cuenta">
+          ¿No tienes cuenta? <a class="boton" href="/registro/empleado">Registro de Docentes</a>
+        </p>
+      </form>
+    </div>
+
+    <!-- Panel Animado -->
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>¡Bienvenido de nuevo!</h1>
+          <p>Para mantenerte conectado Inicia Sesión con Los Datos Requeridos</p>
+          <button class="ghost" id="signIn">Volver como Alumno</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>¡Hola!</h1>
+          <p>Inicia sesión como empleado institucional</p>
+          <button class="ghost" id="signUp">Entrar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ==================== ANIMACIÓN PANEL ====================
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
+
+    signUpButton.addEventListener('click', () => {
+      container.classList.add("right-panel-active");
+    });
+
+    signInButton.addEventListener('click', () => {
+      container.classList.remove("right-panel-active");
+    });
+
+    // ==================== SISTEMA DE BLOQUEO CON VERIFICACIÓN ====================
+    let intervaloCronometro;
+
+    // Verificar bloqueo al escribir en los campos
+    document.getElementById('emailAlumno').addEventListener('input', function() {
+      verificarBloqueo(this.value, 'alumno');
+    });
+
+    document.getElementById('usuarioEmpleado').addEventListener('input', function() {
+      verificarBloqueo(this.value, 'empleado');
+    });
+
+    function verificarBloqueo(identificador, tipo) {
+      if (!identificador) return;
+
+      fetch('/api/verificar-bloqueo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          identificador: identificador,
+          tipo: tipo
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.bloqueado) {
+          mostrarBloqueo(data.segundos_restantes);
+          bloquearFormulario(tipo);
+        } else {
+          ocultarBloqueo();
+          desbloquearFormulario(tipo);
+          mostrarIntentosRestantes(data.intentos, tipo);
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    }
+
+    function mostrarIntentosRestantes(intentos, tipo) {
+      const alerta = tipo === 'alumno' ? 
+        document.getElementById('alertaIntentosAlumno') : 
+        document.getElementById('alertaIntentosEmpleado');
+      
+      if (intentos >= 9) {
+        // Mostrar botón de verificación por email
+        alerta.style.display = 'block';
+        alerta.classList.add('critico');
+        alerta.innerHTML = `
+          🚫 Límite de intentos alcanzado.<br>
+          <a href="/verificacion-email" style="color: #fff; text-decoration: underline; font-weight: bold;">
+            Verificar identidad por email
+          </a>
+        `;
+      } else if (intentos > 0 && intentos < 9) {
+        const restantes = intentos >= 7 ? 9 - intentos : 7 - intentos;
+        alerta.style.display = 'block';
+        alerta.textContent = `⚠️ Intentos restantes: ${restantes}`;
+        
+        if (intentos >= 7) {
+          alerta.classList.add('critico');
+          alerta.textContent += ' - ¡CUIDADO! Próxima verificación por email';
+        } else if (intentos >= 5) {
+          alerta.classList.add('critico');
+          alerta.textContent += ' - ¡CUIDADO! Próximo bloqueo';
+        } else {
+          alerta.classList.remove('critico');
+        }
+      } else {
+        alerta.style.display = 'none';
+      }
+    }
+
+    function mostrarBloqueo(segundos) {
+      const overlay = document.getElementById('bloqueoOverlay');
+      overlay.classList.add('active');
+      
+      iniciarCronometro(segundos);
+    }
+
+    function ocultarBloqueo() {
+      const overlay = document.getElementById('bloqueoOverlay');
+      overlay.classList.remove('active');
+      
+      if (intervaloCronometro) {
+        clearInterval(intervaloCronometro);
+      }
+    }
+
+    function iniciarCronometro(segundosTotales) {
+      const cronometroEl = document.getElementById('cronometro');
+      
+      if (intervaloCronometro) {
+        clearInterval(intervaloCronometro);
+      }
+      
+      intervaloCronometro = setInterval(() => {
+        segundosTotales--;
+        
+        const minutos = Math.floor(segundosTotales / 60);
+        const segundos = segundosTotales % 60;
+        
+        cronometroEl.textContent = 
+          `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
+        
+        if (segundosTotales <= 0) {
+          clearInterval(intervaloCronometro);
+          ocultarBloqueo();
+          window.location.reload();
+        }
+      }, 1000);
+    }
+
+    function bloquearFormulario(tipo) {
+      if (tipo === 'alumno') {
+        document.getElementById('emailAlumno').classList.add('input-bloqueado');
+        document.getElementById('numeroControlAlumno').classList.add('input-bloqueado');
+        document.getElementById('btnLoginAlumno').classList.add('input-bloqueado');
+        document.getElementById('emailAlumno').disabled = true;
+        document.getElementById('numeroControlAlumno').disabled = true;
+        document.getElementById('btnLoginAlumno').disabled = true;
+      } else {
+        document.getElementById('usuarioEmpleado').classList.add('input-bloqueado');
+        document.getElementById('numeroEmpleado').classList.add('input-bloqueado');
+        document.getElementById('btnLoginEmpleado').classList.add('input-bloqueado');
+        document.getElementById('usuarioEmpleado').disabled = true;
+        document.getElementById('numeroEmpleado').disabled = true;
+        document.getElementById('btnLoginEmpleado').disabled = true;
+      }
+    }
+
+    function desbloquearFormulario(tipo) {
+      if (tipo === 'alumno') {
+        document.getElementById('emailAlumno').classList.remove('input-bloqueado');
+        document.getElementById('numeroControlAlumno').classList.remove('input-bloqueado');
+        document.getElementById('btnLoginAlumno').classList.remove('input-bloqueado');
+        document.getElementById('emailAlumno').disabled = false;
+        document.getElementById('numeroControlAlumno').disabled = false;
+        document.getElementById('btnLoginAlumno').disabled = false;
+      } else {
+        document.getElementById('usuarioEmpleado').classList.remove('input-bloqueado');
+        document.getElementById('numeroEmpleado').classList.remove('input-bloqueado');
+        document.getElementById('btnLoginEmpleado').classList.remove('input-bloqueado');
+        document.getElementById('usuarioEmpleado').disabled = false;
+        document.getElementById('numeroEmpleado').disabled = false;
+        document.getElementById('btnLoginEmpleado').disabled = false;
+      }
+    }
+
+    // ==================== AUTO-OCULTAR MENSAJES FLASH ====================
+    setTimeout(() => {
+      const flashMessages = document.querySelectorAll('.flash-message');
+      flashMessages.forEach(msg => {
+        msg.style.opacity = '0';
+        msg.style.transition = 'opacity 0.3s';
+        setTimeout(() => msg.remove(), 300);
+      });
+    }, 5000);
+  </script>
+
+</body>
+</html>

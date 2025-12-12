@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabla de Directivos</title>
+  <link rel="stylesheet" href="../static/Directivos.css">
+
+</head>
+<body>
+  <div class="container">
+    <h1>✨ Lista de Directivos del Plantel ✨</h1>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Directivos del Plantel</th>
+            <th>Puesto</th>
+            <th>Turno</th>
+            <th>Ver +</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Mtra. Amalia Leonilia Toledo Lopez</strong></td>
+            <td>Directora del Plantel</td>
+            <td><span class="turno-badge">Matutino/Vespertino</span></td>
+            <td>
+              <a href="Directiva-amalia.html">
+                <span class="emoji">👨‍💻</span>
+                <span>Ver Sobre el Directivo</span>
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Ing. Violeta Claudio Laguna</strong></td>
+            <td>Subdirectora del Plantel</td>
+            <td><span class="turno-badge">Matutino/Vespertino</span></td> 
+            <td>
+              <a href="Directiva-violeta.html">
+                <span class="emoji">👨‍💻</span>
+                <span>Ver Sobre el Directivo</span>
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Mtra. Karla Ivonne Nava</strong></td>
+            <td>Coordinadora Academica del Plantel</td>
+            <td><span class="turno-badge">Matutino/Vespertino</span></td>
+            <td>
+              <a href="Directiva-karla.html">
+                <span class="emoji">👨‍💻</span>
+                <span>Ver Sobre el Directivo</span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="boton-container">
+      <a class="boton" href="{{ url_for('inicio') }}">← Volver al Portal Educativo</a>
+    </div>
+  </div>
+</body>
+</html>

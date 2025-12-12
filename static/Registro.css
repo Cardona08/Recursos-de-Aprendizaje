@@ -1,0 +1,151 @@
+/* Estilos para el formulario de registro - CECyTEM */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", Arial, sans-serif;
+  background: linear-gradient(to right, #2c3e50, #bdc3c7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Caja del formulario */
+.login-box {
+  width: 400px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  padding: 35px 50px; /* 🔹 Menos altura (antes 55px 60px) */
+  border-top: 10px solid #0C6B37;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* Título */
+.login-box h2 {
+  text-align: center;
+  color: #0C6B37;
+  font-size: 28px;
+  margin-bottom: 25px; /* 🔹 Un poco menos separación */
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Etiquetas */
+form label {
+  display: block;
+  margin: 10px 0 5px;
+  color: #0a0a0a;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* Campos */
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+  border: 1.8px solid #cccccc;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+form input:focus {
+  border-color: #0C6B37;
+  box-shadow: 0 0 6px rgba(12, 107, 55, 0.3);
+  outline: none;
+}
+
+/* 🔹 Botón institucional */
+button {
+  width: 100%;
+  padding: 11px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #0C6B37, #158f47);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(12, 107, 55, 0.2);
+}
+
+button:hover {
+  background: linear-gradient(90deg, #158f47, #0C6B37);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(12, 107, 55, 0.3);
+}
+
+button:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 8px rgba(12, 107, 55, 0.2);
+}
+
+/* Enlace */
+form a {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #0C6B37;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+form a:hover {
+  color: #158f47;
+  text-decoration: underline;
+}
+
+/* Responsivo */
+@media (max-width: 700px) {
+  .login-box {
+    width: 90%;
+    padding: 30px 25px;
+  }
+  .login-box h2 {
+    font-size: 24px;
+  }
+}
+style>
+    .flash-messages {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      max-width: 400px;
+    }
+    .flash-message {
+      padding: 15px 20px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      color: white;
+      font-weight: bold;
+      animation: slideIn 0.3s ease-out;
+    }
+    .flash-success {
+      background-color: #4CAF50;
+    }
+    .flash-error {
+      background-color: #f44336;
+    }
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }

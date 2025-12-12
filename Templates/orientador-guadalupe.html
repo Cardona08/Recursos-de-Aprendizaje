@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ficha del Empleado</title>
+  <link rel="stylesheet" href="../static/orientadoras-mas.css">
+
+</head>
+<body>
+  <div class="employee-card">
+    
+    <div class="header">
+      <div class="logo">
+        <div class="emoji">👷‍♂️</div>
+        <div class="company-name">Colegion de Estudios Cientificos y Tecnologicos Del Estado de Mexico<br>de México</div>
+      </div>
+      <div class="header-title">Ficha del Empleado</div>
+    </div>
+
+    <div class="content-grid">
+
+      <div class="left-section">
+        <div class="info-box">
+          <div class="info-row"><span class="info-label">Puesto:</span> <span class="info-value">Orientadora</span></div>
+          <div class="info-row"><span class="info-label">Departamento:</span> <span class="info-value">I</span></div>
+          <div class="info-row"><span class="info-label">Turno:</span> <span class="info-value">Matutino</span></div>
+          <div class="info-row"><span class="info-label">Antigüedad:</span> <span class="info-value">0</span></div>
+          <div class="info-row"><span class="info-label">Proyectos activos:</span> <span class="info-value">0</span></div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="section-title">Indicadores de desempeño</div>
+          <div class="stat-item">
+            <span class="stat-label">Asistencia</span>
+            <div class="progress-bar"><div class="progress-fill" style="width: 98%;">00%</div></div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Evaluación institucional</span>
+            <div class="progress-bar"><div class="progress-fill" style="width: 94%;">00%</div></div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Cumplimiento de metas</span>
+            <div class="progress-bar"><div class="progress-fill" style="width: 90%;">00%</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right -->
+      <div class="right-section">
+        <div class="employee-photo">👨‍🏫</div>
+        <div class="employee-name">Lic. Guadalupe Jimenez Rosales</div>
+        <div class="employee-id">ID: 14276</div>
+      </div>
+    </div>
+
+    <!-- Groups / áreas -->
+    <div class="groups-section">
+      <div class="groups-title">📋 Grupos Asignados</div>
+      <div class="group-list">
+        <div class="group-item"><span class="group-name">101</span><span class="group-count">38 Alumnos</span></div>
+        <div class="group-item"><span class="group-name">102</span><span class="group-count">38 Alumnos</span></div>
+        <div class="group-item"><span class="group-name">103</span><span class="group-count">38 Alumnos</span></div>
+        <div class="group-item"><span class="group-name">104</span><span class="group-count">38 Alumnos</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="volver-container">
+    <a href="{{ url_for('orientadores') }}" class="btn-volver">⬅️ Volver a Orientadores</a>
+
+        </div>
+</body>
+</html>

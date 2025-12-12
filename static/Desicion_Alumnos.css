@@ -1,0 +1,145 @@
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.97);
+            padding: 60px 40px;
+            border-radius: 30px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 1200px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.8em;
+            margin-bottom: 50px;
+            color: #2d3436;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .grupo {
+            margin-bottom: 40px;
+        }
+
+        .ovalos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .ovalo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 45px;
+            border: 3px solid transparent;
+            border-radius: 50px;
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Colores por grupo */
+        .grupo:nth-of-type(1) .ovalo { 
+            background: linear-gradient(135deg, #ff7675 0%, #ff6b6b 100%);
+        }
+        
+        .grupo:nth-of-type(2) .ovalo { 
+            background: linear-gradient(135deg, #74b9ff 0%, #5fa8ff 100%);
+        }
+        
+        .grupo:nth-of-type(3) .ovalo { 
+            background: linear-gradient(135deg, #55efc4 0%, #3ddc9f 100%);
+        }
+
+        .ovalo-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .ovalo:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .ovalo:hover .ovalo-icon {
+            transform: rotate(360deg) scale(1.1);
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .ovalo:active {
+            transform: translateY(-2px) scale(0.98);
+        }
+
+        /* Botón Volver */
+        .volver-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .boton {
+            display: inline-block;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 15px 35px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(37, 117, 252, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .boton:hover {
+            background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(37, 117, 252, 0.4);
+        }
+
+        .boton:active {
+            transform: translateY(-1px);
+        }
+
+    

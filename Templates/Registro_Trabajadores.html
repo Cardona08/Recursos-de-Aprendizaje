@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro De Usuario De Empleados</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .flash-messages {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      max-width: 400px;
+    }
+
+    .flash-message {
+      padding: 15px 20px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: opacity 0.3s ease;
+      font-weight: 500;
+    }
+
+    .flash-success {
+      background-color: #10b981;
+      color: white;
+    }
+
+    .flash-error {
+      background-color: #ef4444;
+      color: white;
+    }
+
+    .flash-warning {
+      background-color: #f59e0b;
+      color: white;
+    }
+
+    .flash-info {
+      background-color: #3b82f6;
+      color: white;
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .login-box h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      background-color: #f9f9f9;
+      position: relative;
+      z-index: 100;
+      pointer-events: auto;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #667eea;
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .role-options {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .role-option {
+      flex: 1;
+    }
+
+    .role-option input[type="radio"] {
+      display: none;
+    }
+
+    .role-option label {
+      display: block;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background-color: #f9f9f9;
+      font-weight: 500;
+    }
+
+    .role-option input[type="radio"]:checked + label {
+      background-color: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .role-option label:hover {
+      border-color: #667eea;
+      transform: translateY(-2px);
+    }
+
+    .conditional-field {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .conditional-field.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    p {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    p a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    p a:hover {
+      color: #764ba2;
+      text-decoration: underline;
+    }
+
+    .required {
+      color: #ef4444;
+    }
+
+    .materia-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin-bottom: 12px;
+      align-items: center;
+    }
+
+    .materia-input {
+      grid-column: 1;
+      width: 100%;
+    }
+
+    .remove-materia-btn {
+      grid-column: 2;
+      padding: 12px 20px;
+      background-color: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+      height: auto;
+      z-index: 50;
+    }
+
+    .remove-materia-btn:hover {
+      background-color: #dc2626;
+      transform: scale(1.05);
+    }
+
+    .add-btn {
+      width: 100%;
+      padding: 10px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .add-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    #materias-container {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mensajes Flash -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for category, message in messages %}
+          <div class="flash-message flash-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="login-box">
+    <h2>Registro de Usuario de Empleados</h2>
+    <form method="POST" action="{{ url_for('registro_empleado') }}">
+      
+      <!-- Selección de Rol -->
+      <div class="form-group">
+        <label>Tipo de Empleado <span class="required">*</span></label>
+        <div class="role-options">
+          <div class="role-option">
+            <input type="radio" id="docente" name="rol" value="docente" required>
+            <label for="docente">Docente</label>
+          </div>
+          <div class="role-option">
+            <input type="radio" id="orientador" name="rol" value="orientador" required>
+            <label for="orientador">Orientador</label>
+          </div>
+          <div class="role-option">
+            <input type="radio" id="directivo" name="rol" value="directivo" required>
+            <label for="directivo">Directivo</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Campos Comunes -->
+      <div class="form-group">
+        <label for="nombre">Nombre <span class="required">*</span></label>
+        <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu Nombre" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="apellidoP">Apellido Paterno <span class="required">*</span></label>
+        <input type="text" id="apellidoP" name="apellidoP" placeholder="Ingresa tu Apellido Paterno" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="apellidoM">Apellido Materno <span class="required">*</span></label>
+        <input type="text" id="apellidoM" name="apellidoM" placeholder="Ingresa tu Apellido Materno" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="control">Número de Empleado <span class="required">*</span></label>
+        <input type="text" id="control" name="control" placeholder="Ingresa tu Número de Empleado" required>
+      </div>
+
+      <!-- Campo específico para Docente -->
+      <div class="form-group conditional-field" id="materia-field">
+        <label>Materias que Imparte <span class="required">*</span></label>
+        <div id="materias-container"></div>
+        <button type="button" id="add-materia-btn" class="add-btn" onclick="event.preventDefault(); agregarMateria();">+ Agregar otra materia</button>
+      </div>
+
+      <!-- Campo específico para Orientador -->
+      <div class="form-group conditional-field" id="grupo-field">
+        <label for="grupo">Grupo Asignado <span class="required">*</span></label>
+        <input type="number" id="grupo" name="grupo" placeholder="Ej: 101, 205, 304..." min="101" max="504">
+      </div>
+      
+      <div class="form-group">
+        <label for="usuario">Usuario <span class="required">*</span></label>
+        <input type="text" id="usuario" name="usuario" placeholder="Ingresa un Usuario para el Inicio de Sesión" required>
+      </div>
+      
+      <button type="submit">Guardar Datos</button>
+      
+      <p><a href="{{ url_for('login') }}">¿Listo para Iniciar Sesión?</a></p>
+    </form>
+  </div>
+
+  <script>
+    // Auto-ocultar mensajes flash después de 5 segundos
+    setTimeout(() => {
+      const flashMessages = document.querySelectorAll('.flash-message');
+      flashMessages.forEach(msg => {
+        msg.style.opacity = '0';
+        setTimeout(() => msg.remove(), 300);
+      });
+    }, 5000);
+
+    // Manejo de campos condicionales según el rol seleccionado
+    const roleRadios = document.querySelectorAll('input[name="rol"]');
+    const materiaField = document.getElementById('materia-field');
+    const grupoField = document.getElementById('grupo-field');
+    const grupoInput = document.getElementById('grupo');
+
+    function updateConditionalFields() {
+      const selectedRole = document.querySelector('input[name="rol"]:checked');
+      
+      // Ocultar todos los campos condicionales
+      materiaField.classList.remove('active');
+      grupoField.classList.remove('active');
+      
+      // Remover required de todos los campos condicionales
+      const materiaInputs = document.querySelectorAll('.materia-input');
+      materiaInputs.forEach(input => input.removeAttribute('required'));
+      grupoInput.removeAttribute('required');
+      
+      if (selectedRole) {
+        const roleValue = selectedRole.value;
+        
+        if (roleValue === 'docente') {
+          materiaField.classList.add('active');
+          // Solo el primer campo de materia es requerido
+          const firstMateriaInput = document.querySelector('.materia-input');
+          if (firstMateriaInput) {
+            firstMateriaInput.setAttribute('required', 'required');
+          }
+        } else if (roleValue === 'orientador') {
+          grupoField.classList.add('active');
+          grupoInput.setAttribute('required', 'required');
+        }
+        // Para directivo no se muestra ningún campo adicional
+      }
+    }
+
+    roleRadios.forEach(radio => {
+      radio.addEventListener('change', updateConditionalFields);
+    });
+
+    // Validación del número de grupo para orientador
+    grupoInput.addEventListener('input', function() {
+      const value = parseInt(this.value);
+      
+      if (value < 101 || value > 504) {
+        this.setCustomValidity('El grupo debe estar entre 101 y 504');
+      } else {
+        this.setCustomValidity('');
+      }
+    });
+
+    // Sistema para agregar/eliminar materias
+    let materiaCount = 0;
+    
+    function agregarMateria() {
+      const materiasContainer = document.getElementById('materias-container');
+      const materiaItem = document.createElement('div');
+      materiaItem.className = 'materia-item';
+      materiaCount++;
+      
+      if (materiaCount === 1) {
+        // Primera materia - sin botón eliminar
+        materiaItem.innerHTML = `
+          <input type="text" name="materias[]" placeholder="Ingresa una materia" class="materia-input" required>
+        `;
+      } else {
+        // Materias adicionales - con botón eliminar
+        materiaItem.innerHTML = `
+          <input type="text" name="materias[]" placeholder="Ingresa una materia" class="materia-input">
+          <button type="button" class="remove-materia-btn" onclick="event.preventDefault(); event.stopPropagation(); eliminarMateria(this);">Eliminar</button>
+        `;
+      }
+      
+      materiasContainer.appendChild(materiaItem);
+      
+      // Asegurar que el input sea clickeable
+      const inputs = materiaItem.querySelectorAll('input');
+      inputs.forEach(input => {
+        input.style.pointerEvents = 'auto';
+        input.style.position = 'relative';
+        input.style.zIndex = '100';
+      });
+    }
+    
+    function eliminarMateria(btn) {
+      btn.parentElement.remove();
+      materiaCount--;
+    }
+    
+    // Inicializar con el primer campo cuando se seleccione docente
+    function updateConditionalFields() {
+      const selectedRole = document.querySelector('input[name="rol"]:checked');
+      
+      // Ocultar todos los campos condicionales
+      materiaField.classList.remove('active');
+      grupoField.classList.remove('active');
+      
+      // Remover required de todos los campos condicionales
+      const materiaInputs = document.querySelectorAll('.materia-input');
+      materiaInputs.forEach(input => input.removeAttribute('required'));
+      grupoInput.removeAttribute('required');
+      
+      if (selectedRole) {
+        const roleValue = selectedRole.value;
+        
+        if (roleValue === 'docente') {
+          materiaField.classList.add('active');
+          // Agregar el primer campo si no existe
+          if (materiaCount === 0) {
+            agregarMateria();
+          }
+        } else if (roleValue === 'orientador') {
+          grupoField.classList.add('active');
+          grupoInput.setAttribute('required', 'required');
+        }
+        // Para directivo no se muestra ningún campo adicional
+      }
+    }
+  </script>
+
+</body>
+</html>

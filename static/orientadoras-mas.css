@@ -1,0 +1,249 @@
+    /* Fondo y fuente */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(120deg, #2c3e50, #bdc3c7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Tarjeta principal */
+    .employee-card {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      width: 900px;
+      overflow: hidden;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Encabezado */
+    .header {
+      background: linear-gradient(90deg, #0C6B37, #158f47);
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 25px 40px;
+    }
+
+    .header .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo .emoji {
+      font-size: 45px;
+    }
+
+    .logo .company-name {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .header-title {
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Contenido principal */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 30px;
+      padding: 35px 45px;
+    }
+
+    /* Sección izquierda */
+    .left-section {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .info-box {
+      border: 1.5px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      background: #fafafa;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .info-value {
+      color: #0C6B37;
+      font-weight: 600;
+    }
+
+    /* Estadísticas */
+    .stats-bar {
+      background: #f7f7f7;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #0C6B37;
+      margin-bottom: 15px;
+    }
+
+    .stat-item {
+      margin-bottom: 15px;
+    }
+
+    .stat-label {
+      display: block;
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .progress-bar {
+      background: #e0e0e0;
+      border-radius: 8px;
+      overflow: hidden;
+      height: 12px;
+    }
+
+    .progress-fill {
+      height: 12px;
+      background: linear-gradient(90deg, #0C6B37, #22c55e);
+      text-align: right;
+      color: #fff;
+      font-size: 10px;
+      padding-right: 4px;
+      border-radius: 8px;
+      transition: width 0.5s ease;
+    }
+
+    /* Sección derecha */
+    .right-section {
+      text-align: center;
+    }
+
+    .employee-photo {
+      font-size: 80px;
+      margin-bottom: 15px;
+    }
+
+    .employee-name {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0C6B37;
+    }
+
+    .employee-id {
+      color: #666;
+      font-size: 14px;
+    }
+
+    /* Lista de grupos o áreas */
+    .groups-section {
+      background: #f5f5f5;
+      padding: 25px 45px;
+      border-top: 2px solid #0C6B37;
+    }
+
+    .groups-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #0C6B37;
+      margin-bottom: 10px;
+    }
+
+    .group-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .group-item {
+      background: #fff;
+      border-radius: 8px;
+      padding: 12px 16px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .group-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .group-name {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .group-count {
+      color: #0C6B37;
+      font-weight: 700;
+    }
+
+    @media (max-width: 800px) {
+      .employee-card {
+        width: 95%;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .volver-container {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .btn-volver {
+            display: inline-block;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 16px 40px;
+            font-size: 1.4em;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-volver:hover {
+            background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .container { padding: 35px 20px; }
+            .ovalo { padding: 14px 30px; font-size: 1.3em; }
+            .ovalo-icon { width: 35px; height: 35px; font-size: 1em; }
+            .btn-volver { font-size: 1.1em; padding: 12px 30px; }
+        }

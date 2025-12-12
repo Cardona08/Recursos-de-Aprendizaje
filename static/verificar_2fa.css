@@ -1,0 +1,90 @@
+
+    .verification-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to right, #E4E5E6, #00416A);
+        }
+        
+        .verification-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        .verification-box h1 {
+            color: #2a5cbf;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .verification-box p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .code-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        .code-input:focus {
+            outline: none;
+            border-color: #2a5cbf;
+        }
+        
+        .btn-send-code {
+            background: linear-gradient(135deg, #2a5cbf 0%, #1e3e70 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: all 0.3s;
+        }
+        
+        .btn-send-code:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(42, 92, 191, 0.4);
+        }
+        
+        .btn-verify {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        }
+        
+        .btn-verify:hover {
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .timer {
+            color: #f44336;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            color: #2a5cbf;
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }

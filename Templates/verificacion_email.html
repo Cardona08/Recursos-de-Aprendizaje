@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificación de Identidad</title>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <link rel="stylesheet" href="/static/verificacion_email.css">
+</head>
+<body>
+
+  <div class="verificacion-container">
+    <ion-icon name="shield-checkmark" style="font-size: 80px; color: #667eea; margin-bottom: 20px;"></ion-icon>
+    
+    <h1>Verificación de Identidad</h1>
+    <p>Por seguridad, necesitamos verificar tu identidad. Se enviará un código de 6 dígitos a tu correo electrónico.</p>
+
+    <div class="instrucciones">
+      <h3>📧 Instrucciones:</h3>
+      <ul>
+        <li>Haz clic en "Enviar Código"</li>
+        <li>Revisa tu bandeja de entrada (y spam)</li>
+        <li>Ingresa el código de 6 dígitos</li>
+        <li>El código expira en 10 minutos</li>
+      </ul>
+    </div>
+
+    <button class="btn btn-primary" id="btnEnviarCodigo" onclick="enviarCodigo()">
+      <ion-icon name="mail" style="vertical-align: middle;"></ion-icon>
+      Enviar Código al Correo
+    </button>
+
+    <div id="seccionCodigo" style="display: none;">
+      <p style="margin-top: 30px; font-weight: bold;">Ingresa el código de 6 dígitos:</p>
+      
+      <div class="codigo-input">
+        <input type="text" maxlength="1" id="digit1" oninput="moverSiguiente(this, 'digit2')" onkeydown="moverAnterior(event, null, 'digit2')">
+        <input type="text" maxlength="1" id="digit2" oninput="moverSiguiente(this, 'digit3')" onkeydown="moverAnterior(event, 'digit1', 'digit3')">
+        <input type="text" maxlength="1" id="digit3" oninput="moverSiguiente(this, 'digit4')" onkeydown="moverAnterior(event, 'digit2', 'digit4')">
+        <input type="text" maxlength="1" id="digit4" oninput="moverSiguiente(this, 'digit5')" onkeydown="moverAnterior(event, 'digit3', 'digit5')">
+        <input type="text" maxlength="1" id="digit5" oninput="moverSiguiente(this, 'digit6')" onkeydown="moverAnterior(event, 'digit4', 'digit6')">
+        <input type="text" maxlength="1" id="digit6" oninput="verificarCodigo()" onkeydown="moverAnterior(event, 'digit5', null)">
+      </div>
+
+      <div class="cronometro-expiracion" id="cronometroExpiracion">
+        ⏱️ Tiempo restante: 10:00
+      </div>
+
+      <button class="btn btn-secondary" onclick="reenviarCodigo()">
+        <ion-icon name="refresh" style="vertical-align: middle;"></ion-icon>
+        Reenviar Código
+      </button>
+    </div>
+
+    <div id="mensaje" class="mensaje"></div>
+
+    <a href="/login" style="display: inline-block; margin-top: 20px; color: #667eea; text-decoration: none;">
+      ← Volver al inicio de sesión
+    </a>
+  </div>
+
+  <script>
+    let tiempoExpiracion = 600; // 10 minutos en segundos
+    let intervaloCronometro;
+
+    function enviarCodigo() {
+      const btn = document.getElementById('btnEnviarCodigo');
+      btn.disabled = true;
+      btn.classList.add('loading');
+      btn.textContent = 'Enviando...';
+
+      fetch('/enviar-codigo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          mostrarMensaje('✅ ' + data.message, 'success');
+          document.getElementById('seccionCodigo').style.display = 'block';
+          document.getElementById('btnEnviarCodigo').style.display = 'none';
+          document.getElementById('digit1').focus();
+          iniciarCronometroExpiracion();
+        } else {
+          mostrarMensaje('❌ ' + data.message, 'error');
+          btn.disabled = false;
+          btn.classList.remove('loading');
+          btn.innerHTML = '<ion-icon name="mail" style="vertical-align: middle;"></ion-icon> Enviar Código al Correo';
+        }
+      })
+      .catch(error => {
+        mostrarMensaje('❌ Error de conexión', 'error');
+        btn.disabled = false;
+        btn.classList.remove('loading');
+        btn.innerHTML = '<ion-icon name="mail" style="vertical-align: middle;"></ion-icon> Enviar Código al Correo';
+      });
+    }
+
+    function verificarCodigo() {
+      const codigo = obtenerCodigo();
+      
+      if (codigo.length !== 6) return;
+
+      const formData = new FormData();
+      formData.append('codigo', codigo);
+
+      fetch('/verificar-codigo', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          mostrarMensaje('✅ Código correcto! Redirigiendo...', 'success');
+          setTimeout(() => {
+            window.location.href = data.redirect;
+          }, 1500);
+        } else {
+          mostrarMensaje('❌ ' + data.message, 'error');
+          limpiarCodigo();
+        }
+      })
+      .catch(error => {
+        mostrarMensaje('❌ Error de conexión', 'error');
+        limpiarCodigo();
+      });
+    }
+
+    function obtenerCodigo() {
+      let codigo = '';
+      for (let i = 1; i <= 6; i++) {
+        codigo += document.getElementById('digit' + i).value;
+      }
+      return codigo;
+    }
+
+    function limpiarCodigo() {
+      for (let i = 1; i <= 6; i++) {
+        document.getElementById('digit' + i).value = '';
+      }
+      document.getElementById('digit1').focus();
+    }
+
+    function moverSiguiente(actual, siguiente) {
+      if (actual.value.length === 1 && siguiente) {
+        document.getElementById(siguiente).focus();
+      }
+    }
+
+    function moverAnterior(event, anterior, siguiente) {
+      if (event.key === 'Backspace') {
+        if (event.target.value === '' && anterior) {
+          document.getElementById(anterior).focus();
+        }
+      } else if (event.key === 'ArrowLeft' && anterior) {
+        document.getElementById(anterior).focus();
+      } else if (event.key === 'ArrowRight' && siguiente) {
+        document.getElementById(siguiente).focus();
+      }
+    }
+
+    function reenviarCodigo() {
+      clearInterval(intervaloCronometro);
+      tiempoExpiracion = 600;
+      limpiarCodigo();
+      
+      const btn = event.target;
+      btn.disabled = true;
+      btn.textContent = 'Reenviando...';
+
+      fetch('/enviar-codigo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          mostrarMensaje('✅ Código reenviado', 'success');
+          iniciarCronometroExpiracion();
+        } else {
+          mostrarMensaje('❌ ' + data.message, 'error');
+        }
+        btn.disabled = false;
+        btn.innerHTML = '<ion-icon name="refresh" style="vertical-align: middle;"></ion-icon> Reenviar Código';
+      });
+    }
+
+    function iniciarCronometroExpiracion() {
+      const cronometroEl = document.getElementById('cronometroExpiracion');
+      
+      if (intervaloCronometro) {
+        clearInterval(intervaloCronometro);
+      }
+      
+      intervaloCronometro = setInterval(() => {
+        tiempoExpiracion--;
+        
+        const minutos = Math.floor(tiempoExpiracion / 60);
+        const segundos = tiempoExpiracion % 60;
+        
+        cronometroEl.textContent = 
+          `⏱️ Tiempo restante: ${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
+        
+        if (tiempoExpiracion <= 0) {
+          clearInterval(intervaloCronometro);
+          mostrarMensaje('❌ Código expirado. Solicita uno nuevo.', 'error');
+          limpiarCodigo();
+        }
+      }, 1000);
+    }
+
+    function mostrarMensaje(texto, tipo) {
+      const mensajeEl = document.getElementById('mensaje');
+      mensajeEl.textContent = texto;
+      mensajeEl.className = 'mensaje ' + tipo;
+      mensajeEl.style.display = 'block';
+      
+      setTimeout(() => {
+        mensajeEl.style.display = 'none';
+      }, 5000);
+    }
+
+    // Solo permitir números en los inputs
+    document.querySelectorAll('.codigo-input input').forEach(input => {
+      input.addEventListener('input', function(e) {
+        this.value = this.value.replace(/[^0-9]/g, '');
+      });
+    });
+  </script>
+
+</body>
+</html>

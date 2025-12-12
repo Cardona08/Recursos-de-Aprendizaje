@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Alumnos y Grupos</title>
+    <link rel="stylesheet" href="../static/Desicion_Alumnos.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Alumnos y Grupos 📚</h1>
+
+        <!-- GRUPO 100 -->
+        <div class="grupo">
+            <div class="ovalos">
+                <a href="{{ url_for('grupo_101') }}" class="ovalo">
+                    <div class="ovalo-icon">📚</div>
+                    <span>101</span>
+                </a>
+                <a href="{{ url_for('grupo_102') }}" class="ovalo">
+                    <div class="ovalo-icon">📚</div>
+                    <span>102</span>
+                </a>
+                <a href="{{ url_for('grupo_103') }}" class="ovalo">
+                    <div class="ovalo-icon">📚</div>
+                    <span>103</span>
+                </a>
+                <a href="{{ url_for('grupo_104') }}" class="ovalo">
+                    <div class="ovalo-icon">📚</div>
+                    <span>104</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- GRUPO 300 -->
+        <div class="grupo">
+            <div class="ovalos">
+                <a href="{{ url_for('grupo_301') }}" class="ovalo">
+                    <div class="ovalo-icon">📚</div>
+                    <span>301</span>
+                </a>
+                <a href="{{ url_for('grupo_302') }}" class="ovalo">
+                    <div class="ovalo-icon">📚</div>
+                    <span>302</span>
+                </a>
+                <a href="{{ url_for('grupo_303') }}" class="ovalo">
+                    <div class="ovalo-icon">📚</div>
+                    <span>303</span>
+                </a>
+                <a href="{{ url_for('grupo_304') }}" class="ovalo">
+                    <div class="ovalo-icon">📚</div>
+                    <span>304</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- GRUPO 500 -->
+        <div class="grupo">
+            <div class="ovalos">
+                <a href="{{ url_for('grupo_501') }}" class="ovalo">
+                    <div class="ovalo-icon">📚</div>
+                    <span>501</span>
+                </a>
+                <a href="{{ url_for('grupo_502') }}" class="ovalo">
+                    <div class="ovalo-icon">📚</div>
+                    <span>502</span>
+                </a>
+                <a href="{{ url_for('grupo_503') }}" class="ovalo">
+                    <div class="ovalo-icon">📚</div>
+                    <span>503</span>
+                </a>
+                <a href="{{ url_for('grupo_504') }}" class="ovalo">
+                    <div class="ovalo-icon">📚</div>
+                    <span>504</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- BOTÓN VOLVER -->
+        <div class="volver-container">
+            <a class="boton" href="{{ url_for('inicio') }}">← Volver al Portal Educativo</a>
+        </div>
+    </div>
+</body>
+</html>

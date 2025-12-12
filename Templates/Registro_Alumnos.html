@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Alumnos</title>
+    <link rel="stylesheet" href="../static/Registro.css">
+
+</head>
+<body>
+
+  <!-- Mensajes Flash -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for category, message in messages %}
+          <div class="flash-message flash-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="login-box">
+    <h2>Registro de Alumnos</h2>
+    <form method="POST" action="{{ url_for('registro_alumno') }}">
+      <label for="control">Número de Control</label>
+      <input type="text" id="control" name="control" placeholder="Ej: 25415082630003" required>
+      
+      <label for="curp">CURP</label>
+      <input type="text" id="curp" name="curp" placeholder="Ingresa tu CURP" maxlength="18" required>
+      
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu Nombre" required>
+      
+      <label for="apellidoP">Apellido Paterno</label>
+      <input type="text" id="apellidoP" name="apellidoP" placeholder="Ingresa tu Apellido Paterno" required>
+      
+      <label for="apellidoM">Apellido Materno</label>
+      <input type="text" id="apellidoM" name="apellidoM" placeholder="Ingresa tu Apellido Materno" required>
+      
+      <label for="correo">Correo Institucional</label>
+      <input type="email" id="correo" name="correo" placeholder="Ingresa tu Correo Institucional" required>
+      
+      <label for="grupo">Grupo</label>
+      <input type="text" id="grupo" name="grupo" placeholder="Ej: 101, 102, 301" required>
+      
+      <label for="semestre">Semestre</label>
+      <select id="semestre" name="semestre" required>
+        <option value="1">1er Semestre</option>
+        <option value="2">2do Semestre</option>
+        <option value="3">3er Semestre</option>
+        <option value="4">4to Semestre</option>
+        <option value="5">5to Semestre</option>
+        <option value="6">6to Semestre</option>
+      </select>
+      
+      <label for="turno">Turno</label>
+      <select id="turno" name="turno" required>
+        <option value="Matutino">Matutino</option>
+        <option value="Vespertino">Vespertino</option>
+      </select>
+      
+      <button type="submit" class="btn-container">Guardar Datos</button>
+      
+      <p><a href="{{ url_for('login') }}">¿Listo para Iniciar Sesión?</a></p>
+    </form>
+  </div>
+
+  <script>
+    // Auto-ocultar mensajes flash después de 5 segundos
+    setTimeout(() => {
+      const flashMessages = document.querySelectorAll('.flash-message');
+      flashMessages.forEach(msg => {
+        msg.style.opacity = '0';
+        setTimeout(() => msg.remove(), 300);
+      });
+    }, 5000);
+  </script>
+
+</body>
+</html>

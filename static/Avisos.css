@@ -1,0 +1,211 @@
+       * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .notifications-panel {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .notification-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-count {
+            background: white;
+            color: #667eea;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .notifications-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: background 0.3s;
+            cursor: pointer;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .notification-item:hover {
+            background: #f8f9ff;
+        }
+
+        .notification-item.unread {
+            background: #f0f4ff;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .file-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .icon-pdf {
+            background: #ff4444;
+            color: white;
+        }
+
+        .icon-video {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .icon-image {
+            background: #2196F3;
+            color: white;
+        }
+
+        .notification-content {
+            flex-grow: 1;
+        }
+
+        .sender-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .file-info {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .notification-time {
+            color: #999;
+            font-size: 0.85em;
+            white-space: nowrap;
+        }
+
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .test-buttons {
+            display: flex;
+            gap: 10px;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+
+        .test-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            transition: transform 0.2s;
+        }
+
+        .test-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-pdf {
+            background: #ff4444;
+        }
+
+        .btn-video {
+            background: #4CAF50;
+        }
+
+        .btn-image {
+            background: #2196F3;
+        }
+
+        .clear-btn {
+            background: #999;
+        }
+        .volver-container {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .btn-volver {
+            display: inline-block;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 16px 40px;
+            font-size: 1.4em;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-volver:hover {
+            background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .container { padding: 35px 20px; }
+            .ovalo { padding: 14px 30px; font-size: 1.3em; }
+            .ovalo-icon { width: 35px; height: 35px; font-size: 1em; }
+            .btn-volver { font-size: 1.1em; padding: 12px 30px; }
+        }
